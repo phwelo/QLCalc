@@ -1,0 +1,7 @@
+ql_calc:
+    resource: "@QLCalcBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
