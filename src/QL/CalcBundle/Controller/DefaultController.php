@@ -19,13 +19,21 @@ class Calculation extends Controller
   }
   // end checkExist
 
+  // grab post data and return false if we don't have any
+  public function getPost($postItem){
+    if($this->checkExist('expression')){
+      return $_POST['expression'];
+    } else {
+      return false;
+    }
+  }
+  // end getPost
+
   // replace operator characters with proper PHP math operators
   private function replaceOperators($string){
-    if($this->checkExist('expression')){
       $string = str_replace("x","*",$string);
       $string = str_replace("÷","/",$string);
       return $string;
-    }
   }
   // end replaceOperators
 
@@ -43,6 +51,19 @@ class Calculation extends Controller
   }
   // end checkForTampering
 
+  public function runTests($Expression){
+    if($this->checkExist('expression')){
+      $opsReplacedExpression = $this->replaceOperators($Expression);
+      if($this->checkForTampering($opsReplacedExpression)){
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   // Evaluate the contents of the expression now that it has been filtered to
   // prevent invalid operators and user input
   public function evaluateExpression($Expression){
@@ -59,12 +80,14 @@ class DefaultController extends Controller
 {
   public function indexAction()
   {
+    // instantiate new Calculation object
     $Calc1 = new Calculation();
-    $screen = $Calc1->evaluateExpression($_POST['expression']);
-      // If we get anything unexpected (or nothing, like new load of page) then
-      // we want to show nothing on the calculator screen
-
-
+    $TestResults = $Calc1->runTests($Calc1->getPost('expression'));
+    if($TestResults){
+      $screen = $Calc1->evaluateExpression($Calc1->getPost('expression'));
+    } else {
+      $screen = "";
+    }
     return $this->render('QLCalcBundle:Default:index.html.twig', array(
     'screen' => $screen,));
   }
