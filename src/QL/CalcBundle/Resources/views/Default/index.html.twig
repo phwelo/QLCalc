@@ -15,17 +15,18 @@
           varScreen = "" + varScreen;
           varScreenLastChar = varScreen.slice(-1);
           varScreen = varScreen + $num;
-          // logic prevents back-to-back math operators
+          // logic prevents back-to-back math operators, replacing with newest
           if(($num == "+" ||
               $num == "-" ||
               $num == "÷" ||
               $num == "." ||
               $num == "x")
-              && (varScreenLastChar == "+" ||
-                  varScreenLastChar == "-" ||
-                  varScreenLastChar == "÷" ||
-                  varScreenLastChar == "." ||
-                  varScreenLastChar == "x")){
+              &&
+              (varScreenLastChar == "+" ||
+               varScreenLastChar == "-" ||
+               varScreenLastChar == "÷" ||
+               varScreenLastChar == "." ||
+               varScreenLastChar == "x")){
             varScreen = varScreen.substring(0, varScreen.length - 2);
             varScreen = varScreen + $num;
           }
