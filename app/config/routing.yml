@@ -1,3 +1,7 @@
+app:
+    resource: "@AppBundle/Resources/config/routing.yml"
+    prefix:   /
+
 ql_calc:
     resource: "@QLCalcBundle/Resources/config/routing.yml"
     prefix:   /

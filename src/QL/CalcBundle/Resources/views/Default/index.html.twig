@@ -5,36 +5,82 @@
     <title>{% block title %}Calculator{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/calculator.css') }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <script>
+      // Declare a public variable to contain the number on the "screen"
+      var varScreen = "";
+      // Take the clicked number and append it to the end of the current screen number
+      function clickNums($num) {
+        if(varScreen){
+          // using "" to convert to string
+          varScreen = "" + varScreen;
+          varScreenLastChar = varScreen.slice(-1);
+          varScreen = varScreen + $num;
+          // logic prevents back-to-back math operators
+          if(($num == "+" ||
+              $num == "-" ||
+              $num == "÷" ||
+              $num == "." ||
+              $num == "x")
+              && (varScreenLastChar == "+" ||
+                  varScreenLastChar == "-" ||
+                  varScreenLastChar == "÷" ||
+                  varScreenLastChar == "." ||
+                  varScreenLastChar == "x")){
+            varScreen = varScreen.substring(0, varScreen.length - 2);
+            varScreen = varScreen + $num;
+          }
+        } else {
+          // if screen isn't set yet we just assign num to it
+          varScreen = $num;
+        }
+        document.getElementById("screen").innerHTML = varScreen;
+      }
+      // If the clear button is pressed clear out the varScreen variable
+      function clearScreen() {
+        varScreen = "";
+        document.getElementById("screen").innerHTML = varScreen;
+      }
+      function eval() {
+        var screenVal = document.getElementById("screen").innerHTML;
+        document.getElementById("hiddenInput").value = screenVal;
+        document.getElementById("frm_Calc").submit();
+      }
+    </script>
   </head>
 </html>
 
 {% block body %}
+<h1 id="testhead"></h1>
 <div id="calculator">
 	<!-- Screen and clear key -->
 	<div class="top">
-		<span class="clear">C</span>
-		<div class="screen"></div>
+		<span onclick="clearScreen()" class="clear">C</span>
+		<div id="screen" class="screen">{{ screen }}</div>
 	</div>
 
 	<div class="keys">
 		<!-- operators and other keys -->
-		<span>7</span>
-		<span>8</span>
-		<span>9</span>
-		<span class="operator">+</span>
-		<span>4</span>
-		<span>5</span>
-		<span>6</span>
-		<span class="operator">-</span>
-		<span>1</span>
-		<span>2</span>
-		<span>3</span>
-		<span class="operator">÷</span>
-		<span>0</span>
-		<span>.</span>
-		<span class="eval">=</span>
-		<span class="operator">x</span>
+		<span onclick="clickNums(7)">7</span>
+		<span onclick="clickNums(8)">8</span>
+		<span onclick="clickNums(9)">9</span>
+		<span onclick="clickNums('+')" class="operator">+</span>
+		<span onclick="clickNums(4)">4</span>
+		<span onclick="clickNums(5)">5</span>
+		<span onclick="clickNums(6)">6</span>
+		<span onclick="clickNums('-')"class="operator">-</span>
+		<span onclick="clickNums(1)">1</span>
+		<span onclick="clickNums(2)">2</span>
+		<span onclick="clickNums(3)">3</span>
+		<span onclick="clickNums('÷')" class="operator">÷</span>
+		<span onclick="clickNums(0)">0</span>
+		<span onclick="clickNums('.')">.</span>
+		<span onclick="eval()" class="eval">=</span>
+		<span onclick="clickNums('x')" class="operator">x</span>
 	</div>
+  <form id="frm_Calc" method="post" action="">
+    <input id="hiddenInput" name="expression" type="hidden" value="{{ path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) }}">
+  </form>
 </div>
 
 {% endblock %}

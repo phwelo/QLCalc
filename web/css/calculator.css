@@ -21,9 +21,9 @@ html {
 	margin: 100px auto;
 	padding: 20px 20px 9px;
 
-	background: #9dd2ea;
+	background: #888888;
 	border-radius: 3px;
-	box-shadow: 0px 4px #009de4, 0px 10px 15px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 4px #676767, 0px 10px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Top bar */
@@ -96,8 +96,8 @@ html {
 
 /* Some hover effects */
 .keys span:hover {
-	background: #9c89f6;
-	box-shadow: 0px 4px #6b54d3;
+	background: #6FA1D8;
+	box-shadow: 0px 4px rgba(2, 16, 185, 0.58);
 	color: white;
 }
 

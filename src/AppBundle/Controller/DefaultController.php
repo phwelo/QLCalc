@@ -2,18 +2,19 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends Controller
+class HelloController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/hello/{name}", name="hello")
      */
-    public function indexAction(Request $request)
+
+    public function indexAction($name)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig');
+        return $this->render('hello/index.html.twig', array('name' => $name));
     }
 }
