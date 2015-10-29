@@ -37,11 +37,16 @@ class Calculation extends Controller
   }
   // end replaceOperators
 
+  // remove any trailing multiply or divide operators
+  private function explodeExpression($Expression){
+    $explodedPost = str_split($this->replaceOperators($Expression));
+    return $explodedPost;
+  }
+
   // test to make sure we have no letters in post data
   // return true for "ok" and false for "insecure"
   private function checkForTampering($Expression){
-    $explodedPost = str_split($this->replaceOperators($Expression));
-    foreach ($explodedPost as &$letter){
+    foreach ($this->explodeExpression($Expression) as &$letter){
       if(preg_match("/[A-Za-z]/", $letter, $MatchAlpha)){
         return false;
       } else {
@@ -51,6 +56,23 @@ class Calculation extends Controller
   }
   // end checkForTampering
 
+  // trailing operators screw up the evaluation of the expression so we cut them
+  private function removeTrailingOps($Expression){
+    $exploded = $this->explodeExpression($Expression);
+    if(end($exploded) == '*' or end($exploded) == '/' or end($exploded) == '+' or end($exploded) == '-'){
+      $Expression = substr($Expression, 0, -1);
+    }
+    return $Expression;
+  }
+  // end removeTrailingOps
+
+  private function removeLeadingOps($Expression){
+    $exploded = $this->explodeExpression($Expression);
+    if($exploded[0] == '*' or $exploded[0] == '/'){
+      $Expression = substr($Expression, 1);
+    }
+    return $Expression;
+  }
   public function runTests($Expression){
     if($this->checkExist('expression')){
       $opsReplacedExpression = $this->replaceOperators($Expression);
@@ -67,8 +89,9 @@ class Calculation extends Controller
   // Evaluate the contents of the expression now that it has been filtered to
   // prevent invalid operators and user input
   public function evaluateExpression($Expression){
-    if($this->checkForTampering($Expression))
     $Expression = $this->replaceOperators($Expression);
+    $Expression = $this->removeTrailingOps($Expression);
+    $Expression = $this->removeLeadingOps($Expression);
     $Evald = eval("return ($Expression);");
     return $Evald;
   }
