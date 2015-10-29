@@ -1,4 +1,4 @@
-/* Basic reset */
+/* Apply these to all and allow inheritence to prevail */
 * {
 	margin: 0;
 	padding: 0;
@@ -6,15 +6,18 @@
 	font: bold 14px Arial, sans-serif;
 }
 
+/* Set a nice background that will cover the entire page */
 html {
-  background: url(images/bg.jpg) no-repeat center center fixed;
+  background: url(/background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 
+/* Build the expanse of the calculator interface */
 #calculator {
+
 	width: 325px;
 	height: auto;
 
@@ -22,16 +25,16 @@ html {
 	padding: 20px 20px 9px;
 
 	background: #888888;
-	border-radius: 3px;
-	box-shadow: 0px 4px #676767, 0px 10px 15px rgba(0, 0, 0, 0.2);
+
+	border-radius: 5px;
 }
 
-/* Top bar */
+/* Send clear button left */
 .top span.clear {
 	float: left;
 }
 
-/* shadows */
+/* Shadowing */
 .top .screen {
 	height: 40px;
 	width: 212px;
@@ -41,7 +44,7 @@ html {
 	padding: 0 10px;
 
 	background: rgba(0, 0, 0, 0.2);
-	border-radius: 3px;
+	border-radius: 5px;
 	box-shadow: inset 0px 4px rgba(0, 0, 0, 0.2);
 
 	/* Text */
@@ -56,7 +59,7 @@ html {
 /* Clear floats */
 .keys, .top {overflow: hidden;}
 
-/* Applying same to the keys */
+/* Keys styles */
 .keys span, .top span.clear {
 	float: left;
 	position: relative;
@@ -72,19 +75,17 @@ html {
 	line-height: 36px;
 	text-align: center;
 	user-select: none;
-	transition: all 0.2s ease;
 }
 
-/* Remove right margins from operator keys */
-/* style different type of keys (operators/evaluate/clear) differently */
+/* Remove right margins */
 .keys span.operator {
-	background: #FFF0F5;
+	background: #CDE6FF;
 	margin-right: 0;
 }
 
+/* Actual key styles */
 .keys span.eval {
 	background: #f1ff92;
-	box-shadow: 0px 4px #9da853;
 	color: #888e5f;
 }
 
@@ -113,18 +114,15 @@ html {
 	color: white;
 }
 
-/* Simulating "pressed" effect on active state of the keys by removing the box-shadow and moving the keys down a bit */
+/* Clicked states */
 .keys span:active {
-	box-shadow: 0px 0px #6b54d3;
-	top: 4px;
+	box-shadow: 0px 4px #ffffff;
 }
 
 .keys span.eval:active {
 	box-shadow: 0px 0px #717a33;
-	top: 4px;
 }
 
 .top span.clear:active {
-	top: 4px;
 	box-shadow: 0px 0px #d3545d;
 }
