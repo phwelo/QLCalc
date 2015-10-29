@@ -10,5 +10,10 @@ Most interesting files:
 
 <img src="http://i.imgur.com/FtDiN4X.png">
 
+##index.html.twig
 
+HTML twig template
 
+##DefaultController.php
+
+Controller php
