@@ -66,6 +66,7 @@ class Calculation extends Controller
   }
   // end removeTrailingOps
 
+  // remove the operators * and / from the expression
   private function removeLeadingOps($Expression){
     $exploded = $this->explodeExpression($Expression);
     if($exploded[0] == '*' or $exploded[0] == '/'){
@@ -73,6 +74,9 @@ class Calculation extends Controller
     }
     return $Expression;
   }
+  //end removeLeadingOps
+
+  // runs all of the tests that we defined above
   public function runTests($Expression){
     if($this->checkExist('expression')){
       $opsReplacedExpression = $this->replaceOperators($Expression);
@@ -85,6 +89,7 @@ class Calculation extends Controller
       return false;
     }
   }
+  // end runTests
 
   // Evaluate the contents of the expression now that it has been filtered to
   // prevent invalid operators and user input
@@ -105,7 +110,10 @@ class DefaultController extends Controller
   {
     // instantiate new Calculation object
     $Calc1 = new Calculation();
+    // run the tests and store the boolean value to $TestResults
     $TestResults = $Calc1->runTests($Calc1->getPost('expression'));
+    // if $TestResults is true we evaluate the expression, but if false we
+    // just send a blank value to the calculator screen
     if($TestResults){
       $screen = $Calc1->evaluateExpression($Calc1->getPost('expression'));
     } else {
